@@ -9,6 +9,8 @@ function verifyToken(req, res, next) {
 
   if (!token) return res.status(401).json({ message: 'Token requerido' });
 
+  
+
   try {
     const decoded = jwt.verify(token, SECRET);
     req.user = decoded;

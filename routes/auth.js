@@ -2,10 +2,11 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const User = require('../models/User'); 
+const User = require('../models/User');
+const verifyToken = require('../middleware/authMiddleware'); 
 
 const router = express.Router();
-const SECRET = process.env.JWT_SECRET 
+const SECRET = process.env.JWT_SECRET
 
 // Ruta de login
 router.post('/login', async (req, res) => {
@@ -15,7 +16,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ username });
     if (!user) return res.status(400).json({ message: 'Usuario no encontrado' });
 
-    const isMatch = await bcrypt.compare(password, user.password); 
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Contraseña incorrecta' });
 
     const token = jwt.sign({ id: user._id, username: user.username }, SECRET, { expiresIn: '1h' });
@@ -42,6 +43,12 @@ router.post('/register', async (req, res) => {
     console.error('Error al crear usuario:', err);
     res.status(500).json({ message: 'Error al crear usuario' });
   }
+});
+router.get('/verify-token', verifyToken, (req, res) => {
+  res.status(200).json({
+    message: 'Token válido',
+    user: req.user 
+  });
 });
 
 module.exports = router;
