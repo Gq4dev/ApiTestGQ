@@ -1,0 +1,30 @@
+# Node.js
+node_modules/
+
+# Archivos de entorno (configuración local y secreta)
+.env
+
+# Logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Archivos de compilación
+dist/
+build/
+
+# Archivos temporales
+*.log
+*.tmp
+*.swp
+
+# IDEs y editores
+.vscode/
+.idea/
+
+# Archivos de OS
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# Otros
+*.env.local
